@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+<title>ClickEXEC</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ClickEXEC</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">脚本列表</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">日志</a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>
+	<div class="container-fluid">
+		<div style="height:30px;"></div>
+		<button type="button" class="btn btn-primary" onclick="openAddForm()">新增脚本</button>
+		<div style="height:10px;"></div>
+		<div id="toastDiv"></div>
+		
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th scope="col">名称</th>
+					<th scope="col">操作</th>
+				</tr>
+			</thead>
+			<tbody id="tbBody">
+			
+			</tbody>
+		</table>
+		
+		<div class="modal fade show" id="scriptFormModal" tabindex="-1" aria-labelledby="scriptFormModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="scriptFormModalLabel">脚本新增修改</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeForm()"></button>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		          <input type="hidden" id="scriptFormType" value="add"/>
+		          <input type="hidden" id="scriptId" value=""/>
+		          <div class="mb-3">
+		            <label for="scriptName" class="col-form-label">名称:</label>
+		            <input type="text" class="form-control" id="scriptName">
+		          </div>
+		          <div class="mb-3">
+		            <label class="col-form-label">类型:</label>
+					<div class="form-check">
+					  <input class="form-check-input" type="radio" name="scriptType" id="scriptType1" checked value="1">
+					  <label class="form-check-label" for="scriptType1">
+					    单行
+					  </label>
+					</div>
+					<div class="form-check">
+					  <input class="form-check-input" type="radio" name="scriptType" id="scriptType2" value="2">
+					  <label class="form-check-label" for="scriptType2">
+					    文件
+					  </label>
+					</div>
+		          </div>
+		          <div class="mb-3" id="sContentDiv">
+		            <label for="scriptContent" class="col-form-label">内容:</label>
+		            <input type="text" class="form-control" id="scriptContent">
+		          </div>
+		          <div class="mb-3" id="sPathDiv" style="display:none;">
+		            <label for="scriptFilePath" class="col-form-label">路径:</label>
+		            <input type="text" class="form-control" id="scriptFilePath">
+		          </div>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="closeForm()">关闭</button>
+		        <button type="button" class="btn btn-primary" onclick="submitScript()">保存</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+		
+		<div class="modal fade show" tabindex="-1" id="execCheckModal" tabindex="-1" aria-labelledby="execCheckModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="execCheckModalLabel">请确认</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeExecModal()"></button>
+		      </div>
+		      <div class="modal-body">
+		        <p>是否确认执行？</p>
+		        <input type="hidden" id="checkExecId" value=""/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" onclick="closeExecModal()">取消</button>
+		        <button type="button" class="btn btn-success" onclick="gotoExecScript()">是</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<div class="modal fade show" tabindex="-1" id="delCheckModal" tabindex="-1" aria-labelledby="delCheckModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="delCheckModalLabel">请确认</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQuesModal()"></button>
+		      </div>
+		      <div class="modal-body">
+		        <p>是否确认删除？</p>
+		        <input type="hidden" id="checkDelId" value=""/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" onclick="closeDelCheckModal()">取消</button>
+		        <button type="button" class="btn btn-danger" onclick="gotoQuesModal()">是</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>	
+		
+		<div class="modal fade show" tabindex="-1" id="quesModal" tabindex="-1" aria-labelledby="quesModalLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="quesModalLabel">请选择</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="closeQuesModal()"></button>
+		      </div>
+		      <div class="modal-body">
+		        <p>是否同时删除脚本文件？（不能恢复）</p>
+		        <input type="hidden" id="delId" value=""/>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" onclick="closeQuesModal()">取消</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteScript('false')">否</button>
+		        <button type="button" class="btn btn-danger" onclick="deleteScript('true')">是</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+	</div>
+	
+	<script src="jquery/jquery-3.5.1.js"></script>
+	<script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="js/index.js"></script>
+</body>
+</html>
