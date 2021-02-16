@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.jgduhao</groupId>
 	<artifactId>clickexec</artifactId>
-	<version>0.1.1</version>
+	<version>0.1.2</version>
 	<name>clickexec</name>
 	<description>clickexec</description>
 	<properties>

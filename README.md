@@ -7,6 +7,17 @@
 
 前端仅是能用的程度，基于bootstrap+jquery
 
+## 版本日志
+
+### 0.1.2 
+
+- 解决了部分脚本会阻塞进程的问题,超时时间50秒(但在执行类似于java -jar xxx.jar命令时,在读取process的InputStream输出内容时依旧可能阻塞,但阻塞的是单个线程,不影响正常使用,将相关的进程kill后线程也可以正常结束)
+- 执行命令后的输出可以在日志文件中查看了,日志文件位置/var/clickexec/log
+
+### 0.1.1 
+
+完成基本的新增,修改,执行,删除功能
+
 ## 之后可能加入的功能
 
 - 执行日志记录查询
@@ -23,6 +34,8 @@
 `./mvnw clean spring-boot:run`
 
 h2数据库文件在/var/clickexec/目录生成
+
+日志文件在目录/var/clickexec/log生成
 
 启动后使用http://127.0.0.1:8081/index.html 访问图形界面
 
