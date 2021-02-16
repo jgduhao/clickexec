@@ -21,5 +21,10 @@ public class ScriptConsts {
 	 * 脚本执行其他错误
 	 */
 	public static final int SCRIPT_EXECUTE_OTHER_ERR = -999;
+	
+	/**
+	 * 脚本执行超时时间(秒)
+	 */
+	public static final int SCRIPT_TIMOUT = 50;
 
 }

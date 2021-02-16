@@ -88,8 +88,8 @@ public class BashScriptServiceImpl implements BashScriptService {
 			});
 			outputThread.start();
 			
-			boolean waitStatus = process.waitFor(50, TimeUnit.SECONDS);
-			int status = -999;
+			boolean waitStatus = process.waitFor(ScriptConsts.SCRIPT_TIMOUT, TimeUnit.SECONDS);
+			int status = ScriptConsts.SCRIPT_EXECUTE_OTHER_ERR;
 			if(waitStatus) {
 				status = process.waitFor();
 			}
